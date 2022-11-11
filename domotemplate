@@ -42,6 +42,24 @@ else
   exit
 fi
 
+function CleanExit()
+{
+  if [ "$STARTED_GUI" = "1" ]; then
+    if [ "$1" -ne "0" ]; then
+      echo -e "Exitcode $COLOR_WHITE$1$COLOR_NONE"
+    fi
+    echo
+    echo -e "Press $COLOR_WHITE""ENTER$COLOR_NONE to close window"
+    read
+  fi
+
+  if [ "$1" ]; then
+    exit $1
+  else
+    exit
+  fi
+}
+
 ########################
 # Check for parameters #
 ########################
@@ -52,14 +70,12 @@ while [ $# -gt 0 ]; do # Parameter given?
     echo
     echo "Options"
     echo "--help     This help"
-    EXITCODE="0"
-    shift
+    CleanExit "0"
   elif [ "$1" = "--dummy" ]; then
     shift
   else
     echo -e "Unknown parameter $COLOR_WHITE$1$COLOR_NONE"
-    EXITCODE="1"
-    shift
+    CleanExit "1"
   fi
 done
 
@@ -68,12 +84,12 @@ done
 ##########################
 
 NEEDED_TOOLS="echo date   cp mv ls"
- 
+
 for x in $NEEDED_TOOLS; do
   which $x > /dev/null
   if [ $? -ne 0 ]; then
     echo -e "Tool $COLOR_WHITE$x$COLOR_NONE is missing!"
-    EXITCODE="1"
+    CleanExit "1"
   fi
 done
 
@@ -116,18 +132,14 @@ echo
 # Action #
 ##########
 
-if [ ! "$EXITCODE" ]; then
 
-###############################################################################
 
 echo -e "$COLOR_YELLOW""Do some magic$COLOR_NONE"
 echo -e "Scriptname: $COLOR_WHITE$0$COLOR_NONE"
 sleep 1
 echo -e "$COLOR_YELLOW""Finished$COLOR_NONE"
 
-###############################################################################
 
-fi
 
 ################
 # Finishing up #
@@ -139,13 +151,4 @@ END="$(date '+%s')"
 echo -e "Prog took $COLOR_LIGHT_PURPLE$(( $END - $START )) seconds$COLOR_NONE"
 echo
 
-if [ "$STARTED_GUI" = 1 ]; then
-  echo
-  echo -e "Press $COLOR_WHITE""ENTER$COLOR_NONE to close window"
-  read
-fi
-
-if [ "$EXITCODE" ]; then
-  exit $EXITCODE
-fi
-
+CleanExit "0"
