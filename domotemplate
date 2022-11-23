@@ -37,7 +37,7 @@ COLOR_MARK=$SHELL_COLOR_BOLD_WHITE
 # Function to end program with exit code and wait for ENTER to close window, if started as GUI
 function ProgExit()
 {
-  if [ "$STARTED_GUI" = "1" ]; then
+  if [ "$STARTED_GUI" = "1" ] || [ "$MC_SID" ]; then
     if [ "$1" -ne "0" ]; then
       echo -e "Exitcode $COLOR_MARK$1$COLOR_NORMAL"
     fi
@@ -61,6 +61,9 @@ if [ -t 0 ] && [ -t 1 ] && [ -t 2 ]; then # STDIN, STDOUT and STDERR defined?
   echo -en "$COLOR_NORMAL"
   if [ "$STARTED_GUI" = 1 ]; then
     echo -en "Running in $COLOR_MARK""GUI$COLOR_NORMAL"
+  elif [ "$MC_SID" ];then
+    clear
+    echo -en "Running in $COLOR_MARK""Terminal$COLOR_NORMAL started from $COLOR_MARK""mc$COLOR_NORMAL"
   else
     echo -en "Running in $COLOR_MARK""Terminal$COLOR_NORMAL"
   fi
