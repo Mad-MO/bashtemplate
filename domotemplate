@@ -75,8 +75,8 @@ if [ -t 0 ] && [ -t 1 ] && [ -t 2 ]; then # STDIN, STDOUT and STDERR defined?
     echo -e " with $COLOR_MARK""no$COLOR_NORMAL parameters"
   fi
 else
-  echo "No Terminal found, starting GUI"
-  gnome-terminal -- bash -c "STARTED_GUI=1 $0 $@"
+  # No Terminal found, starting GUI
+  gnome-terminal --title $PROG_NAME" "$PROG_VERSION -- /usr/bin/env "STARTED_GUI=1" "$0" "$@"
   exit
 fi
 
