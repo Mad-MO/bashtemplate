@@ -165,7 +165,8 @@ echo -e "$COLOR_SECTION""Finished$COLOR_NORMAL"
 echo
 echo -e "Finished $COLOR_TIMING$(date '+%Y-%m-%d %H:%M:%S')$COLOR_NORMAL"
 PROG_END="$(date '+%s')"
-echo -e "Prog took $COLOR_TIMING$(( $PROG_END - $PROG_START )) seconds$COLOR_NORMAL"
+PROG_DURATION="$(( $PROG_END - $PROG_START ))"
+echo -e "Duration $COLOR_TIMING$PROG_DURATION sec$COLOR_NORMAL"
 echo
 
 ################
