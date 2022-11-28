@@ -57,18 +57,20 @@ function ProgExit()
 ########################
 
 if [ -t 0 ] && [ -t 1 ] && [ -t 2 ]; then # STDIN, STDOUT and STDERR defined?
-  echo -en "$COLOR_NORMAL"
+  echo -en "$COLOR_NORMAL""Running $COLOR_MARK$PROG_NAME$COLOR_NORMAL version $COLOR_MARK$PROG_VERSION$COLOR_NORMAL"
   if [ "$STARTED_GUI" = 1 ]; then
-    echo -en "Running in $COLOR_MARK""GUI$COLOR_NORMAL"
+    echo -en " in $COLOR_MARK""GUI$COLOR_NORMAL"
   elif [ "$MC_SID" ];then
     clear
-    echo -en "Running in $COLOR_MARK""Terminal$COLOR_NORMAL started from $COLOR_MARK""mc$COLOR_NORMAL"
+    echo -en " in $COLOR_MARK""Terminal$COLOR_NORMAL started from $COLOR_MARK""mc$COLOR_NORMAL"
   else
-    echo -en "Running in $COLOR_MARK""Terminal$COLOR_NORMAL"
+    echo -en " in $COLOR_MARK""Terminal$COLOR_NORMAL"
   fi
   echo -en " as user $COLOR_MARK$(id -un)$COLOR_NORMAL"
-  if [ $# -gt 0 ]; then
-    echo -e " with parameters $COLOR_MARK$@$COLOR_NORMAL"
+  if   [ $# -gt 1 ]; then
+    echo -e " with $COLOR_MARK$#$COLOR_NORMAL parameters $COLOR_MARK$@$COLOR_NORMAL"
+  elif [ $# -gt 0 ]; then
+    echo -e " with parameter $COLOR_MARK$@$COLOR_NORMAL"
   else
     echo -e " with $COLOR_MARK""no$COLOR_NORMAL parameters"
   fi
