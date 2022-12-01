@@ -77,7 +77,7 @@ if [ -t 0 ] && [ -t 1 ] && [ -t 2 ]; then # STDIN, STDOUT and STDERR defined?
   fi
 else
   # No Terminal found, starting GUI
-  gnome-terminal --title $PROG_NAME" "$PROG_VERSION -- /usr/bin/env "STARTED_GUI=1" "$0" "$@"
+  gnome-terminal --title $PROG_NAME" "$PROG_VERSION -- /usr/bin/env "PROG_STARTED_IN_GUI=1" "$0" "$@"
   exit
 fi
 
