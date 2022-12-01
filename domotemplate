@@ -29,20 +29,26 @@ SHELL_COLOR_BOLD_WHITE="\033[1;37m"
 # Define Theme colors
 COLOR_NORMAL=$SHELL_COLOR_OFF
 COLOR_HEADER=$SHELL_COLOR_BOLD_RED
-COLOR_TIMING=$SHELL_COLOR_BOLD_PURPLE
+COLOR_TIME=$SHELL_COLOR_BOLD_PURPLE
 COLOR_SECTION=$SHELL_COLOR_BOLD_YELLOW
-COLOR_ERROR=$SHELL_COLOR_BOLD_RED
-COLOR_MARK=$SHELL_COLOR_BOLD_WHITE
+COLOR_MARK1=$SHELL_COLOR_BOLD_WHITE
+COLOR_MARK2=$SHELL_COLOR_BOLD_RED
+COLOR_MARK3=$SHELL_COLOR_BOLD_GREEN
+COLOR_MARK4=$SHELL_COLOR_BOLD_BLUE
+
+#################
+# Exit function #
+#################
 
 # Function to end program with exit code and wait for ENTER to close window, if started as GUI
 function ProgExit()
 {
-  if [ "$STARTED_GUI" = "1" ] || [ "$MC_SID" ]; then
+  if [ "$PROG_STARTED_IN_GUI" = "1" ] || [ "$MC_SID" ]; then # Started in GUI or Midnight Commander?
     if [ "$1" -ne "0" ]; then
-      echo -e "Exitcode $COLOR_MARK$1$COLOR_NORMAL"
+      echo -e "Exitcode $COLOR_MARK1$1$COLOR_NORMAL"
     fi
     echo
-    echo -e "Press $COLOR_MARK""ENTER$COLOR_NORMAL to close window"
+    echo -e "Press $COLOR_MARK1""ENTER$COLOR_NORMAL to close window"
     read
   fi
 
@@ -58,22 +64,29 @@ function ProgExit()
 ########################
 
 if [ -t 0 ] && [ -t 1 ] && [ -t 2 ]; then # STDIN, STDOUT and STDERR defined?
-  echo -en "$COLOR_NORMAL""Running $COLOR_MARK$PROG_NAME$COLOR_NORMAL version $COLOR_MARK$PROG_VERSION$COLOR_NORMAL"
-  if [ "$STARTED_GUI" = 1 ]; then
-    echo -en " in $COLOR_MARK""GUI$COLOR_NORMAL"
-  elif [ "$MC_SID" ];then
+  if [ "$MC_SID" ]; then # Started in Midnight Commander?
     clear
-    echo -en " in $COLOR_MARK""Terminal$COLOR_NORMAL started from $COLOR_MARK""mc$COLOR_NORMAL"
-  else
-    echo -en " in $COLOR_MARK""Terminal$COLOR_NORMAL"
   fi
-  echo -en " as user $COLOR_MARK$(id -un)$COLOR_NORMAL"
-  if   [ $# -gt 1 ]; then
-    echo -e " with $COLOR_MARK$#$COLOR_NORMAL parameters $COLOR_MARK$@$COLOR_NORMAL"
-  elif [ $# -gt 0 ]; then
-    echo -e " with parameter $COLOR_MARK$@$COLOR_NORMAL"
+  echo -en "$COLOR_NORMAL""Running $COLOR_MARK1$PROG_NAME$COLOR_NORMAL version $COLOR_MARK1$PROG_VERSION$COLOR_NORMAL"
+  if [ "$PROG_STARTED_IN_GUI" = 1 ]; then
+    echo -en " in $COLOR_MARK1""GUI$COLOR_NORMAL"
   else
-    echo -e " with $COLOR_MARK""no$COLOR_NORMAL parameters"
+    echo -en " in $COLOR_MARK1""Terminal$COLOR_NORMAL"
+    if [ "$MC_SID" ]; then # Started in Midnight Commander?
+      echo -en " started from $COLOR_MARK1""mc$COLOR_NORMAL"
+    fi
+  fi
+  echo -en " as user $COLOR_MARK1$(id -un)$COLOR_NORMAL"
+  if   [ $# -eq 1 ]; then
+    echo -e " with parameter $COLOR_MARK1$@$COLOR_NORMAL"
+  elif [ $# -gt 1 ]; then
+    echo -en " with $COLOR_MARK1$#$COLOR_NORMAL parameters$COLOR_MARK1"
+    for x in "$@"; do
+      echo -en " \"$x\""
+    done
+    echo -e "$COLOR_NORMAL"
+  else
+    echo -e " with $COLOR_MARK1""no$COLOR_NORMAL parameters"
   fi
 else
   # No Terminal found, starting GUI
@@ -118,7 +131,7 @@ done
 for x in $PROG_CHECK_FOR_TOOLS; do # Run through tool list
   which $x > /dev/null
   if [ $? -ne 0 ]; then
-    echo -e "Tool $COLOR_MARK$x$COLOR_NORMAL is missing!"
+    echo -e "Tool $COLOR_MARK1$x$COLOR_NORMAL is missing!"
     ProgExit "1"
   fi
 done
@@ -140,7 +153,7 @@ echo
 # Time measurement #
 ####################
 
-echo -e "Starting $COLOR_TIMING$(date '+%Y-%m-%d %H:%M:%S')$COLOR_NORMAL"
+echo -e "Starting $COLOR_TIME$(date '+%Y-%m-%d %H:%M:%S')$COLOR_NORMAL"
 PROG_START=$(date '+%s')
 echo
 
@@ -148,25 +161,21 @@ echo
 # Action #
 ##########
 
-
-
 echo -e "$COLOR_SECTION""Do some magic$COLOR_NORMAL"
-echo -e "Scriptname: $COLOR_MARK$PROG_NAME$COLOR_NORMAL"
-echo -e "$COLOR_ERROR""Some ERROR!$COLOR_NORMAL"
+echo -e "Scriptname: $COLOR_MARK1$PROG_NAME$COLOR_NORMAL"
+echo -e "$COLOR_MARK2""Some ERROR!$COLOR_NORMAL"
 sleep 1
 echo -e "$COLOR_SECTION""Finished$COLOR_NORMAL"
-
-
 
 ####################
 # Time measurement #
 ####################
 
 echo
-echo -e "Finished $COLOR_TIMING$(date '+%Y-%m-%d %H:%M:%S')$COLOR_NORMAL"
+echo -e "Finished $COLOR_TIME$(date '+%Y-%m-%d %H:%M:%S')$COLOR_NORMAL"
 PROG_END="$(date '+%s')"
 PROG_DURATION="$(( $PROG_END - $PROG_START ))"
-echo -e "Duration $COLOR_TIMING$PROG_DURATION sec$COLOR_NORMAL"
+echo -e "Duration $COLOR_TIME$PROG_DURATION sec$COLOR_NORMAL"
 echo
 
 ################
