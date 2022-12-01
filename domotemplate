@@ -3,6 +3,7 @@
 # Program info
 PROG_NAME="prog"
 PROG_VERSION="v0.beta1"
+PROG_CHECK_FOR_TOOLS="echo date"
 
 # Define colors
 SHELL_COLOR_OFF="\033[0m"
@@ -114,9 +115,7 @@ done
 # Needed tools #
 ################
 
-NEEDED_TOOLS="echo date"
-
-for x in $NEEDED_TOOLS; do # Run through tool list
+for x in $PROG_CHECK_FOR_TOOLS; do # Run through tool list
   which $x > /dev/null
   if [ $? -ne 0 ]; then
     echo -e "Tool $COLOR_MARK$x$COLOR_NORMAL is missing!"
