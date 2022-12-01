@@ -85,26 +85,27 @@ fi
 ##############
 
 while [ $# -gt 0 ]; do # Parameter given?
-  if [ "$1" = "--help" ]; then
+  if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
     echo "Usage: $0 [OPTION]"
     echo
     echo "Do some fancy stuff..."
     echo
     echo "Options"
-    echo "--help    This help"
-    echo "--debug   print all executed commands"
+    echo "-h, --help      This help"
+    echo "-d, --debug     print all executed commands"
     echo
     echo "Exit status:"
-    echo " 0  if OK,"
+    echo " 0  if OK"
     echo " 1  if ERROR"
     ProgExit "0"
-  elif [ "$1" = "--debug" ]; then
+  elif [ "$1" = "--debug" ] || [ "$1" = "-d" ]; then
     set -x
     shift
   elif [ "$1" = "--dummy" ]; then
+    # Just for parameter testing -> does nothing
     shift
   else
-    echo -e "Unknown parameter $COLOR_MARK$1$COLOR_NORMAL"
+    echo -e "Unknown parameter $COLOR_MARK1$1$COLOR_NORMAL"
     ProgExit "1"
   fi
 done
