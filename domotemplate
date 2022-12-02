@@ -3,7 +3,7 @@
 # Program info
 PROG_NAME="prog"
 PROG_VERSION="v0.beta1"
-PROG_CHECK_FOR_TOOLS="echo date"
+PROG_CHECK_FOR_TOOLS="echo date figlet tput"
 
 # Define colors
 SHELL_COLOR_OFF="\033[0m"
@@ -141,11 +141,7 @@ done
 ################
 
 echo -ne "$COLOR_HEADER"
-echo " _ __  _ __ ___   __ _ "
-echo "| '_ \| '__/ _ \ / _\` |"
-echo "| |_) | | | (_) | (_| |"
-echo "| .__/|_|  \___/ \__, |"
-echo "|_|              |___/ "
+figlet $PROG_NAME -w $(tput cols)
 echo -e "$COLOR_HEADER$PROG_NAME $PROG_VERSION$COLOR_NORMAL"
 echo
 
