@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 
-# Program info
-PROG_NAME="prog"
-PROG_VERSION="v0.beta1"
-PROG_CHECK_FOR_TOOLS="echo date figlet tput"
+# Script info
+SCRIPT_NAME="domoTemplate"
+SCRIPT_VERSION="v0.beta1"
+SCRIPT_CHECK_FOR_TOOLS="echo date figlet tput"
 
-# Define general colors
+########################
+# Definition of colors #
+########################
+
+# General colors
 COLOR_OFF="\033[0m"
 
 COLOR_BLACK="\033[0;30m"
@@ -26,7 +30,7 @@ COLOR_BOLD_PURPLE="\033[1;35m"
 COLOR_BOLD_CYAN="\033[1;36m"
 COLOR_BOLD_WHITE="\033[1;37m"
 
-# Define Theme colors
+# Theme colors
 COLOR_NORMAL=$COLOR_OFF
 COLOR_HEADER=$COLOR_BOLD_RED
 COLOR_TIME=$COLOR_BOLD_PURPLE
@@ -36,14 +40,14 @@ COLOR_MARK2=$COLOR_BOLD_RED
 COLOR_MARK3=$COLOR_BOLD_GREEN
 COLOR_MARK4=$COLOR_BOLD_BLUE
 
-#################
-# Exit function #
-#################
+########################
+# Define exit function #
+########################
 
-# Function to end program with exit code and wait for ENTER to close window, if started as GUI
-function ProgExit()
+# Function to end script with exit code and wait for ENTER to close window (if not started from shell)
+function ScriptExit()
 {
-  if [ "$PROG_STARTED_IN_GUI" = "1" ] || [ "$MC_SID" ]; then # Started in GUI or Midnight Commander?
+  if [ "$SCRIPT_STARTED_IN_X" = "1" ] || [ "$MC_SID" ]; then # Started in gnome-terminal or Midnight Commander?
     if [ "$1" -ne "0" ]; then
       echo -e "Exitcode $COLOR_MARK1$1$COLOR_NORMAL"
     fi
@@ -59,17 +63,17 @@ function ProgExit()
   fi
 }
 
-########################
-# Terminal Environment #
-########################
+###############################
+# Handle Terminal Environment #
+###############################
 
 if [ -t 0 ] && [ -t 1 ] && [ -t 2 ]; then # STDIN, STDOUT and STDERR defined?
   if [ "$MC_SID" ]; then # Started in Midnight Commander?
     clear
   fi
-  echo -en "$COLOR_NORMAL""Running $COLOR_MARK1$PROG_NAME$COLOR_NORMAL version $COLOR_MARK1$PROG_VERSION$COLOR_NORMAL"
-  if [ "$PROG_STARTED_IN_GUI" = 1 ]; then
-    echo -en " in $COLOR_MARK1""GUI$COLOR_NORMAL"
+  echo -en "$COLOR_NORMAL""Running $COLOR_MARK1$SCRIPT_NAME$COLOR_NORMAL version $COLOR_MARK1$SCRIPT_VERSION$COLOR_NORMAL"
+  if [ "$SCRIPT_STARTED_IN_X" = 1 ]; then
+    echo -en " in $COLOR_MARK1""X$COLOR_NORMAL"
   else
     echo -en " in $COLOR_MARK1""Terminal$COLOR_NORMAL"
     if [ "$MC_SID" ]; then # Started in Midnight Commander?
@@ -89,14 +93,14 @@ if [ -t 0 ] && [ -t 1 ] && [ -t 2 ]; then # STDIN, STDOUT and STDERR defined?
     echo -e " with $COLOR_MARK1""no$COLOR_NORMAL parameters"
   fi
 else
-  # No Terminal found, starting GUI
-  gnome-terminal --title $PROG_NAME" "$PROG_VERSION -- /usr/bin/env "PROG_STARTED_IN_GUI=1" "$0" "$@"
+  # No Terminal found, starting gnome-terminal
+  gnome-terminal --title $SCRIPT_NAME" "$SCRIPT_VERSION -- /usr/bin/env "SCRIPT_STARTED_IN_X=1" "$0" "$@"
   exit
 fi
 
-##############
-# Parameters #
-##############
+####################
+# Check Parameters #
+####################
 
 while [ $# -gt 0 ]; do # Parameter given?
   if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
@@ -111,7 +115,7 @@ while [ $# -gt 0 ]; do # Parameter given?
     echo "Exit status:"
     echo " 0  if OK"
     echo " 1  if ERROR"
-    ProgExit "0"
+    ScriptExit "0"
   elif [ "$1" = "--debug" ] || [ "$1" = "-d" ]; then
     set -x
     shift
@@ -120,62 +124,62 @@ while [ $# -gt 0 ]; do # Parameter given?
     shift
   else
     echo -e "Unknown parameter $COLOR_MARK1$1$COLOR_NORMAL"
-    ProgExit "1"
+    ScriptExit "1"
   fi
 done
 
-################
-# Needed tools #
-################
+##########################
+# Check for needed tools #
+##########################
 
-for x in $PROG_CHECK_FOR_TOOLS; do # Run through tool list
+for x in $SCRIPT_CHECK_FOR_TOOLS; do # Run through tool list
   which $x > /dev/null
   if [ $? -ne 0 ]; then
     echo -e "Tool $COLOR_MARK1$x$COLOR_NORMAL is missing!"
-    ProgExit "1"
+    ScriptExit "1"
   fi
 done
 
-################
-# Program info #
-################
+############################
+# Show script startup info #
+############################
 
 echo -ne "$COLOR_HEADER"
-figlet $PROG_NAME -w $(tput cols)
-echo -e "$COLOR_HEADER$PROG_NAME $PROG_VERSION$COLOR_NORMAL"
+figlet $SCRIPT_NAME -w $(tput cols)
+echo -e "$COLOR_HEADER$SCRIPT_NAME $SCRIPT_VERSION$COLOR_NORMAL"
 echo
 
-####################
-# Time measurement #
-####################
+##########################
+# Start time measurement #
+##########################
 
 echo -e "Starting $COLOR_TIME$(date '+%Y-%m-%d %H:%M:%S')$COLOR_NORMAL"
-PROG_START=$(date '+%s')
+SCIPT_START=$(date '+%s')
 echo
 
 ##########
-# Action #
+# Script #
 ##########
 
 echo -e "$COLOR_SECTION""Do some magic$COLOR_NORMAL"
-echo -e "Scriptname: $COLOR_MARK1$PROG_NAME$COLOR_NORMAL"
+echo -e "Scriptname: $COLOR_MARK1$SCRIPT_NAME$COLOR_NORMAL"
 echo -e "$COLOR_MARK2""Some ERROR!$COLOR_NORMAL"
 sleep 1
 echo -e "$COLOR_SECTION""Finished$COLOR_NORMAL"
 
-####################
-# Time measurement #
-####################
+#########################
+# Stop time measurement #
+#########################
 
 echo
 echo -e "Finished $COLOR_TIME$(date '+%Y-%m-%d %H:%M:%S')$COLOR_NORMAL"
-PROG_END="$(date '+%s')"
-PROG_DURATION="$(( $PROG_END - $PROG_START ))"
-echo -e "Duration $COLOR_TIME$PROG_DURATION sec$COLOR_NORMAL"
+SCRIPT_END="$(date '+%s')"
+SCRIPT_DURATION="$(( $SCRIPT_END - $SCIPT_START ))"
+echo -e "Duration $COLOR_TIME$SCRIPT_DURATION sec$COLOR_NORMAL"
 echo
 
-################
-# Exit program #
-################
+###############
+# Exit script #
+###############
 
-ProgExit "0"
+ScriptExit "0"
