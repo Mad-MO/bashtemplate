@@ -2,7 +2,7 @@
 
 # Script info
 SCRIPT_NAME="domoTemplate"
-SCRIPT_VERSION="v0.beta1"
+SCRIPT_VERSION="v0.1.2"
 SCRIPT_CHECK_FOR_TOOLS="echo date figlet tput"
 
 ########################
@@ -118,9 +118,6 @@ while [ $# -gt 0 ]; do # Parameter given?
     ScriptExit "0"
   elif [ "$1" = "--debug" ] || [ "$1" = "-d" ]; then
     set -x
-    shift
-  elif [ "$1" = "--dummy" ]; then
-    # Just for parameter testing -> does nothing
     shift
   else
     echo -e "Unknown parameter $COLOR_MARK1$1$COLOR_NORMAL"
