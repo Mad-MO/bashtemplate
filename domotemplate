@@ -3,7 +3,7 @@
 # Script info
 SCRIPT_NAME="domoTemplate"
 SCRIPT_VERSION="v0.1.2"
-SCRIPT_CHECK_FOR_TOOLS="echo date figlet tput"
+SCRIPT_CHECK_FOR_TOOLS="echo date figlet tput clear test"
 
 ########################
 # Definition of colors #
