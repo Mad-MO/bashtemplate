@@ -1,42 +1,39 @@
 #!/usr/bin/env bash
 
 # Script info
-SCRIPT_NAME="domoTemplate"
-SCRIPT_VERSION="v0.1.2"
-SCRIPT_CHECK_FOR_TOOLS="echo date figlet tput clear test"
+script_name="domoTemplate"
+script_version="v0.1.2"
+script_tools="echo date figlet tput clear test"
 
 ########################
 # Definition of colors #
 ########################
 
 # General colors
-COLOR_OFF="\033[0m"
-
-COLOR_BLACK="\033[0;30m"
-COLOR_RED="\033[0;31m"
-COLOR_GREEN="\033[0;32m"
-COLOR_YELLOW="\033[0;33m"
-COLOR_BLUE="\033[0;34m"
-COLOR_PURPLE="\033[0;35m"
-COLOR_CYAN="\033[0;36m"
-COLOR_WHITE="\033[0;37m"
-
-COLOR_BOLD_BLACK="\033[1;30m"
-COLOR_BOLD_RED="\033[1;31m"
-COLOR_BOLD_GREEN="\033[1;32m"
-COLOR_BOLD_YELLOW="\033[1;33m"
-COLOR_BOLD_BLUE="\033[1;34m"
-COLOR_BOLD_PURPLE="\033[1;35m"
-COLOR_BOLD_CYAN="\033[1;36m"
-COLOR_BOLD_WHITE="\033[1;37m"
+color_off="\033[0m"
+color_black="\033[0;30m"
+color_red="\033[0;31m"
+color_green="\033[0;32m"
+color_yellow="\033[0;33m"
+color_blue="\033[0;34m"
+color_purple="\033[0;35m"
+color_cyan="\033[0;36m"
+color_white="\033[0;37m"
+color_bold_black="\033[1;30m"
+color_bold_red="\033[1;31m"
+color_bold_green="\033[1;32m"
+color_bold_yellow="\033[1;33m"
+color_bold_blue="\033[1;34m"
+color_bold_purple="\033[1;35m"
+color_bold_cyan="\033[1;36m"
+color_bold_white="\033[1;37m"
 
 # Theme colors
-COLOR_NORMAL=$COLOR_OFF
-COLOR_HEADER=$COLOR_BOLD_RED
-COLOR_TIME=$COLOR_BOLD_PURPLE
-COLOR_SECTION=$COLOR_BOLD_YELLOW
-COLOR_MARK=$COLOR_BOLD_WHITE
-COLOR_ERR=$COLOR_BOLD_RED
+color_header=$color_bold_red
+color_time=$color_bold_purple
+color_section=$color_bold_yellow
+color_mark=$color_bold_white
+color_error=$color_bold_red
 
 ########################
 # Define exit function #
@@ -45,12 +42,12 @@ COLOR_ERR=$COLOR_BOLD_RED
 # Function to end script with exit code and wait for ENTER to close window (if not started from shell)
 function ScriptExit()
 {
-  if [ "$SCRIPT_STARTED_IN_X" = "1" ] || [ "$MC_SID" ]; then # Started in gnome-terminal or Midnight Commander?
+  if [ "$script_started_in_x" = "1" ] || [ "$MC_SID" ]; then # Started in gnome-terminal or Midnight Commander?
     if [ "$1" -ne "0" ]; then
-      echo -e "Exitcode $COLOR_MARK$1$COLOR_NORMAL"
+      echo -e "Exitcode $color_mark$1$color_off"
     fi
     echo
-    echo -e "Press $COLOR_MARK""ENTER$COLOR_NORMAL to close window"
+    echo -e "Press $color_mark""ENTER$color_off to close window"
     read
   fi
 
@@ -69,30 +66,30 @@ if [ -t 0 ] && [ -t 1 ] && [ -t 2 ]; then # STDIN, STDOUT and STDERR defined?
   if [ "$MC_SID" ]; then # Started in Midnight Commander?
     clear
   fi
-  echo -en "$COLOR_NORMAL""Running $COLOR_MARK$SCRIPT_NAME$COLOR_NORMAL version $COLOR_MARK$SCRIPT_VERSION$COLOR_NORMAL"
-  if [ "$SCRIPT_STARTED_IN_X" = 1 ]; then
-    echo -en " in $COLOR_MARK""X$COLOR_NORMAL"
+  echo -en "$color_off""Running $color_mark$script_name$color_off version $color_mark$script_version$color_off"
+  if [ "$script_started_in_x" = 1 ]; then
+    echo -en " in $color_mark""X$color_off"
   else
-    echo -en " in $COLOR_MARK""Terminal$COLOR_NORMAL"
+    echo -en " in $color_mark""Terminal$color_off"
     if [ "$MC_SID" ]; then # Started in Midnight Commander?
-      echo -en " started from $COLOR_MARK""mc$COLOR_NORMAL"
+      echo -en " started from $color_mark""mc$color_off"
     fi
   fi
-  echo -en " as user $COLOR_MARK$(id -un)$COLOR_NORMAL"
+  echo -en " as user $color_mark$(id -un)$color_off"
   if   [ $# -eq 1 ]; then
-    echo -e " with parameter $COLOR_MARK$@$COLOR_NORMAL"
+    echo -e " with parameter $color_mark$@$color_off"
   elif [ $# -gt 1 ]; then
-    echo -en " with $COLOR_MARK$#$COLOR_NORMAL parameters$COLOR_MARK"
+    echo -en " with $color_mark$#$color_off parameters$color_mark"
     for x in "$@"; do
       echo -en " \"$x\""
     done
-    echo -e "$COLOR_NORMAL"
+    echo -e "$color_off"
   else
-    echo -e " with $COLOR_MARK""no$COLOR_NORMAL parameters"
+    echo -e " with $color_mark""no$color_off parameters"
   fi
 else
   # No Terminal found, starting gnome-terminal
-  gnome-terminal --title $SCRIPT_NAME" "$SCRIPT_VERSION -- /usr/bin/env "SCRIPT_STARTED_IN_X=1" "$0" "$@"
+  gnome-terminal --title $script_name" "$script_version -- /usr/bin/env "script_started_in_x=1" "$0" "$@"
   exit
 fi
 
@@ -118,7 +115,7 @@ while [ $# -gt 0 ]; do # Parameter given?
     set -x
     shift
   else
-    echo -e "Unknown parameter $COLOR_MARK$1$COLOR_NORMAL"
+    echo -e "Unknown parameter $color_mark$1$color_off"
     ScriptExit 1
   fi
 done
@@ -127,10 +124,10 @@ done
 # Check for needed tools #
 ##########################
 
-for x in $SCRIPT_CHECK_FOR_TOOLS; do # Run through tool list
+for x in $script_tools; do # Run through tool list
   which $x > /dev/null
   if [ $? -ne 0 ]; then
-    echo -e "Tool $COLOR_MARK$x$COLOR_NORMAL is missing!"
+    echo -e "Tool $color_mark$x$color_off is missing!"
     ScriptExit 1
   fi
 done
@@ -139,38 +136,37 @@ done
 # Show script startup info #
 ############################
 
-echo -ne "$COLOR_HEADER"
-figlet $SCRIPT_NAME -w $(tput cols)
-echo -e "$COLOR_HEADER$SCRIPT_NAME $SCRIPT_VERSION$COLOR_NORMAL"
+echo -ne "$color_header"
+figlet $script_name -w $(tput cols)
+echo -e "$color_header$script_name $script_version$color_off"
 echo
 
 ##########################
 # Start time measurement #
 ##########################
 
-echo -e "Starting $COLOR_TIME$(date '+%Y-%m-%d %H:%M:%S')$COLOR_NORMAL"
-SCIPT_START=$(date '+%s')
+echo -e "Starting $color_time$(date '+%Y-%m-%d %H:%M:%S')$color_off"
+script_start=$(date '+%s')
 echo
 
 ##########
 # Script #
 ##########
 
-echo -e "$COLOR_SECTION""Do some magic$COLOR_NORMAL"
-echo -e "Scriptname: $COLOR_MARK1$SCRIPT_NAME$COLOR_NORMAL"
-echo -e "$COLOR_MARK2""Some ERROR!$COLOR_NORMAL"
+echo -e "$color_section[Do some magic]$color_off"
+echo -e "Scriptname: $color_mark1$script_name$color_off"
+echo -e "$color_error""Some ERROR!$color_off"
 sleep 1
-echo -e "$COLOR_SECTION""Finished$COLOR_NORMAL"
 
 #########################
 # Stop time measurement #
 #########################
 
 echo
-echo -e "Finished $COLOR_TIME$(date '+%Y-%m-%d %H:%M:%S')$COLOR_NORMAL"
-SCRIPT_END="$(date '+%s')"
-SCRIPT_DURATION="$(( $SCRIPT_END - $SCIPT_START ))"
-echo -e "Duration $COLOR_TIME$SCRIPT_DURATION sec$COLOR_NORMAL"
+echo -e "Finished $color_time$(date '+%Y-%m-%d %H:%M:%S')$color_off"
+script_end="$(date '+%s')"
+script_duration="$(( $script_end - $script_start ))"
+echo -e "Duration $color_time$script_duration sec$color_off"
 echo
 
 ###############
