@@ -35,10 +35,8 @@ COLOR_NORMAL=$COLOR_OFF
 COLOR_HEADER=$COLOR_BOLD_RED
 COLOR_TIME=$COLOR_BOLD_PURPLE
 COLOR_SECTION=$COLOR_BOLD_YELLOW
-COLOR_MARK1=$COLOR_BOLD_WHITE
-COLOR_MARK2=$COLOR_BOLD_RED
-COLOR_MARK3=$COLOR_BOLD_GREEN
-COLOR_MARK4=$COLOR_BOLD_BLUE
+COLOR_MARK=$COLOR_BOLD_WHITE
+COLOR_ERR=$COLOR_BOLD_RED
 
 ########################
 # Define exit function #
@@ -49,10 +47,10 @@ function ScriptExit()
 {
   if [ "$SCRIPT_STARTED_IN_X" = "1" ] || [ "$MC_SID" ]; then # Started in gnome-terminal or Midnight Commander?
     if [ "$1" -ne "0" ]; then
-      echo -e "Exitcode $COLOR_MARK1$1$COLOR_NORMAL"
+      echo -e "Exitcode $COLOR_MARK$1$COLOR_NORMAL"
     fi
     echo
-    echo -e "Press $COLOR_MARK1""ENTER$COLOR_NORMAL to close window"
+    echo -e "Press $COLOR_MARK""ENTER$COLOR_NORMAL to close window"
     read
   fi
 
@@ -71,26 +69,26 @@ if [ -t 0 ] && [ -t 1 ] && [ -t 2 ]; then # STDIN, STDOUT and STDERR defined?
   if [ "$MC_SID" ]; then # Started in Midnight Commander?
     clear
   fi
-  echo -en "$COLOR_NORMAL""Running $COLOR_MARK1$SCRIPT_NAME$COLOR_NORMAL version $COLOR_MARK1$SCRIPT_VERSION$COLOR_NORMAL"
+  echo -en "$COLOR_NORMAL""Running $COLOR_MARK$SCRIPT_NAME$COLOR_NORMAL version $COLOR_MARK$SCRIPT_VERSION$COLOR_NORMAL"
   if [ "$SCRIPT_STARTED_IN_X" = 1 ]; then
-    echo -en " in $COLOR_MARK1""X$COLOR_NORMAL"
+    echo -en " in $COLOR_MARK""X$COLOR_NORMAL"
   else
-    echo -en " in $COLOR_MARK1""Terminal$COLOR_NORMAL"
+    echo -en " in $COLOR_MARK""Terminal$COLOR_NORMAL"
     if [ "$MC_SID" ]; then # Started in Midnight Commander?
-      echo -en " started from $COLOR_MARK1""mc$COLOR_NORMAL"
+      echo -en " started from $COLOR_MARK""mc$COLOR_NORMAL"
     fi
   fi
-  echo -en " as user $COLOR_MARK1$(id -un)$COLOR_NORMAL"
+  echo -en " as user $COLOR_MARK$(id -un)$COLOR_NORMAL"
   if   [ $# -eq 1 ]; then
-    echo -e " with parameter $COLOR_MARK1$@$COLOR_NORMAL"
+    echo -e " with parameter $COLOR_MARK$@$COLOR_NORMAL"
   elif [ $# -gt 1 ]; then
-    echo -en " with $COLOR_MARK1$#$COLOR_NORMAL parameters$COLOR_MARK1"
+    echo -en " with $COLOR_MARK$#$COLOR_NORMAL parameters$COLOR_MARK"
     for x in "$@"; do
       echo -en " \"$x\""
     done
     echo -e "$COLOR_NORMAL"
   else
-    echo -e " with $COLOR_MARK1""no$COLOR_NORMAL parameters"
+    echo -e " with $COLOR_MARK""no$COLOR_NORMAL parameters"
   fi
 else
   # No Terminal found, starting gnome-terminal
@@ -120,7 +118,7 @@ while [ $# -gt 0 ]; do # Parameter given?
     set -x
     shift
   else
-    echo -e "Unknown parameter $COLOR_MARK1$1$COLOR_NORMAL"
+    echo -e "Unknown parameter $COLOR_MARK$1$COLOR_NORMAL"
     ScriptExit 1
   fi
 done
@@ -132,7 +130,7 @@ done
 for x in $SCRIPT_CHECK_FOR_TOOLS; do # Run through tool list
   which $x > /dev/null
   if [ $? -ne 0 ]; then
-    echo -e "Tool $COLOR_MARK1$x$COLOR_NORMAL is missing!"
+    echo -e "Tool $COLOR_MARK$x$COLOR_NORMAL is missing!"
     ScriptExit 1
   fi
 done
