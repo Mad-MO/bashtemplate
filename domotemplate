@@ -115,13 +115,13 @@ while [ $# -gt 0 ]; do # Parameter given?
     echo "Exit status:"
     echo " 0  if OK"
     echo " 1  if ERROR"
-    ScriptExit "0"
+    ScriptExit 0
   elif [ "$1" = "--debug" ] || [ "$1" = "-d" ]; then
     set -x
     shift
   else
     echo -e "Unknown parameter $COLOR_MARK1$1$COLOR_NORMAL"
-    ScriptExit "1"
+    ScriptExit 1
   fi
 done
 
@@ -133,7 +133,7 @@ for x in $SCRIPT_CHECK_FOR_TOOLS; do # Run through tool list
   which $x > /dev/null
   if [ $? -ne 0 ]; then
     echo -e "Tool $COLOR_MARK1$x$COLOR_NORMAL is missing!"
-    ScriptExit "1"
+    ScriptExit 1
   fi
 done
 
@@ -179,4 +179,4 @@ echo
 # Exit script #
 ###############
 
-ScriptExit "0"
+ScriptExit 0
