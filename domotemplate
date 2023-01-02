@@ -42,7 +42,7 @@ color_error=$color_bold_red
 # Function to end script with exit code and wait for ENTER to close window (if not started from shell)
 function ScriptExit()
 {
-  if [ "$script_started_in_x" = "1" ] || [ "$MC_SID" ]; then # Started in gnome-terminal or Midnight Commander?
+  if [ "$script_started_in_x" = "1" ] || [ ! -z ${MC_SID+x} ]; then # Started in gnome-terminal or Midnight Commander?
     if [ "$1" -ne "0" ]; then
       echo -e "Exitcode $color_mark$1$color_off"
     fi
@@ -63,15 +63,17 @@ function ScriptExit()
 ###############################
 
 if [ -t 0 ] && [ -t 1 ] && [ -t 2 ]; then # STDIN, STDOUT and STDERR defined?
-  if [ "$MC_SID" ]; then # Started in Midnight Commander?
+  if [ ! -z ${MC_SID+x} ]; then # Started in Midnight Commander?
     clear
   fi
   echo -en "$color_off""Running $color_mark$script_name$color_off version $color_mark$script_version$color_off"
   if [ "$script_started_in_x" = 1 ]; then
     echo -en " in $color_mark""X$color_off"
   else
+    script_started_in_x=0
+    set -u # From her on warn about empty variables
     echo -en " in $color_mark""Terminal$color_off"
-    if [ "$MC_SID" ]; then # Started in Midnight Commander?
+    if [ ! -z ${MC_SID+x} ]; then # Started in Midnight Commander?
       echo -en " started from $color_mark""mc$color_off"
     fi
   fi
