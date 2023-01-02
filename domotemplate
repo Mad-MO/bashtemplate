@@ -154,7 +154,7 @@ echo
 ##########
 
 echo -e "$color_section[Do some magic]$color_off"
-echo -e "Scriptname: $color_mark1$script_name$color_off"
+echo -e "Scriptname: $color_mark$script_name$color_off"
 echo -e "$color_error""Some ERROR!$color_off"
 sleep 1
 
