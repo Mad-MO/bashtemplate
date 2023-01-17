@@ -89,10 +89,13 @@ if [ -t 0 ] && [ -t 1 ] && [ -t 2 ]; then # STDIN, STDOUT and STDERR defined?
   else
     echo -e " with $color_mark""no$color_off parameters"
   fi
-else
-  # No Terminal found, starting gnome-terminal
-  gnome-terminal --title $script_name" "$script_version -- /usr/bin/env "SCRIPT_STARTED_IN_X=1" "$0" "$@"
-  exit
+else # No regular terminal found
+  if [ ! -x xhost ]; then # Tool xhost installed?
+    if xhost >& /dev/null ; then # X-session running?
+      gnome-terminal --title $script_name" "$script_version -- /usr/bin/env "SCRIPT_STARTED_IN_X=1" "$0" "$@"
+      exit
+    fi
+  fi
 fi
 
 ####################
