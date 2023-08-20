@@ -2,7 +2,7 @@
 
 # Script info
 script_name="domoTemplate"
-script_version="v0.1.2"
+script_version="v0.2.0"
 script_tools="echo date figlet tput clear test"
 
 ########################
@@ -58,44 +58,52 @@ function ScriptExit()
   fi
 }
 
+##########################
+# Start GUI if requested #
+##########################
+
+if [ "$SCRIPT_STARTED_IN_X" != 1 ]; then
+  for paraval in "$@"; do
+    if [ "$paraval" = "--gui" ] || [ "$paraval" = "-g" ]; then
+      if [ ! -x xhost ]; then # Tool xhost installed?
+        if xhost >& /dev/null ; then # X-session running?
+          gnome-terminal --title $script_name" "$script_version -- /usr/bin/env "SCRIPT_STARTED_IN_X=1" "$0" "$@"
+          exit
+        fi
+      fi
+    fi
+  done
+fi
+
 ###############################
 # Handle Terminal Environment #
 ###############################
 
-if [ -t 0 ] && [ -t 1 ] && [ -t 2 ]; then # STDIN, STDOUT and STDERR defined?
+if [ ! -z ${MC_SID+x} ]; then # Started in Midnight Commander?
+  clear
+fi
+echo -en "$color_off""Running $color_mark$script_name$color_off version $color_mark$script_version$color_off"
+if [ "$SCRIPT_STARTED_IN_X" = 1 ]; then
+  echo -en " in $color_mark""X$color_off"
+else
+  SCRIPT_STARTED_IN_X=0
+  set -u # From her on warn about empty variables
+  echo -en " in $color_mark""Terminal$color_off"
   if [ ! -z ${MC_SID+x} ]; then # Started in Midnight Commander?
-    clear
+    echo -en " started from $color_mark""mc$color_off"
   fi
-  echo -en "$color_off""Running $color_mark$script_name$color_off version $color_mark$script_version$color_off"
-  if [ "$SCRIPT_STARTED_IN_X" = 1 ]; then
-    echo -en " in $color_mark""X$color_off"
-  else
-    SCRIPT_STARTED_IN_X=0
-    set -u # From her on warn about empty variables
-    echo -en " in $color_mark""Terminal$color_off"
-    if [ ! -z ${MC_SID+x} ]; then # Started in Midnight Commander?
-      echo -en " started from $color_mark""mc$color_off"
-    fi
-  fi
-  echo -en " as user $color_mark$(id -un)$color_off"
-  if   [ $# -eq 1 ]; then
-    echo -e " with parameter $color_mark$@$color_off"
-  elif [ $# -gt 1 ]; then
-    echo -en " with $color_mark$#$color_off parameters$color_mark"
-    for x in "$@"; do
-      echo -en " \"$x\""
-    done
-    echo -e "$color_off"
-  else
-    echo -e " with $color_mark""no$color_off parameters"
-  fi
-else # No regular terminal found
-  if [ ! -x xhost ]; then # Tool xhost installed?
-    if xhost >& /dev/null ; then # X-session running?
-      gnome-terminal --title $script_name" "$script_version -- /usr/bin/env "SCRIPT_STARTED_IN_X=1" "$0" "$@"
-      exit
-    fi
-  fi
+fi
+echo -en " as user $color_mark$(id -un)$color_off"
+if   [ $# -eq 1 ]; then
+  echo -e " with parameter $color_mark$@$color_off"
+elif [ $# -gt 1 ]; then
+  echo -en " with $color_mark$#$color_off parameters$color_mark"
+  for x in "$@"; do
+    echo -en " \"$x\""
+  done
+  echo -e "$color_off"
+else
+  echo -e " with $color_mark""no$color_off parameters"
 fi
 
 ####################
@@ -103,22 +111,26 @@ fi
 ####################
 
 while [ $# -gt 0 ]; do # Parameter given?
-  if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+  if   [ "$1" = "-d" ] || [ "$1" = "--debug" ]; then
+    set -x
+    shift
+  elif [ "$1" = "-g" ] || [ "$1" = "--gui" ]; then
+    # Do nothing here, starting of gui is handled above
+    shift
+  elif [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
     echo "Usage: $0 [OPTION]"
     echo
     echo "Do some fancy stuff..."
     echo
     echo "Options"
+    echo "-d, --debug     Print all executed commands"
+    echo "-g, --gui       Start script in X gui window"
     echo "-h, --help      This help"
-    echo "-d, --debug     print all executed commands"
     echo
     echo "Exit status:"
     echo " 0  if OK"
     echo " 1  if ERROR"
     ScriptExit 0
-  elif [ "$1" = "--debug" ] || [ "$1" = "-d" ]; then
-    set -x
-    shift
   else
     echo -e "Unknown parameter $color_mark$1$color_off"
     ScriptExit 1
