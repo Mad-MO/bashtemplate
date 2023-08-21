@@ -5,10 +5,6 @@ script_name="domoTemplate"
 script_version="v0.2.0"
 script_tools="echo date figlet tput clear test"
 
-########################
-# Definition of colors #
-########################
-
 # General colors
 color_off="\033[0m"
 color_black="\033[0;30m"
@@ -35,11 +31,7 @@ color_section=$color_bold_yellow
 color_mark=$color_bold_white
 color_error=$color_bold_red
 
-########################
-# Define exit function #
-########################
-
-# Function to end script with exit code and wait for ENTER to close window (if not started from shell)
+# Function to end script with exit code and wait for ENTER key to close window (if not started from shell)
 function ScriptExit()
 {
   if [ "$SCRIPT_STARTED_IN_X" = "1" ] || [ ! -z ${MC_SID+x} ]; then # Started in gnome-terminal or Midnight Commander?
@@ -58,10 +50,7 @@ function ScriptExit()
   fi
 }
 
-##########################
-# Start GUI if requested #
-##########################
-
+# Start X-terminal as GUI if requested
 if [ "$SCRIPT_STARTED_IN_X" != 1 ]; then
   for paraval in "$@"; do
     if [ "$paraval" = "--gui" ] || [ "$paraval" = "-g" ]; then
@@ -75,10 +64,7 @@ if [ "$SCRIPT_STARTED_IN_X" != 1 ]; then
   done
 fi
 
-###############################
-# Handle Terminal Environment #
-###############################
-
+# Handle Terminal Environment (show parameters and special handling for Midnight Commander)
 if [ ! -z ${MC_SID+x} ]; then # Started in Midnight Commander?
   clear
 fi
@@ -95,7 +81,7 @@ else
 fi
 echo -en " as user $color_mark$(id -un)$color_off"
 if   [ $# -eq 1 ]; then
-  echo -e " with parameter $color_mark$@$color_off"
+  echo -e " with parameter $color_mark\"$@\"$color_off"
 elif [ $# -gt 1 ]; then
   echo -en " with $color_mark$#$color_off parameters$color_mark"
   for x in "$@"; do
@@ -106,10 +92,7 @@ else
   echo -e " with $color_mark""no$color_off parameters"
 fi
 
-####################
-# Check Parameters #
-####################
-
+# Check Parameters
 while [ $# -gt 0 ]; do # Parameter given?
   if   [ "$1" = "-d" ] || [ "$1" = "--debug" ]; then
     set -x
@@ -137,10 +120,7 @@ while [ $# -gt 0 ]; do # Parameter given?
   fi
 done
 
-##########################
-# Check for needed tools #
-##########################
-
+# Check for needed tools
 for x in $script_tools; do # Run through tool list
   which $x > /dev/null
   if [ $? -ne 0 ]; then
@@ -149,36 +129,34 @@ for x in $script_tools; do # Run through tool list
   fi
 done
 
-############################
-# Show script startup info #
-############################
-
+# Show script startup info
 echo -ne "$color_header"
 figlet $script_name -w $(tput cols)
 echo -e "$color_header$script_name $script_version$color_off"
 echo
 
-##########################
-# Start time measurement #
-##########################
-
+# Start time measurement
 echo -e "Starting $color_time$(date '+%Y-%m-%d %H:%M:%S')$color_off"
 script_start=$(date '+%s')
 echo
 
-##########
-# Script #
-##########
+################
+# Script Start #
+################
 
+sleep 0.5
 echo -e "$color_section[Do some magic]$color_off"
+sleep 0.5
 echo -e "Scriptname: $color_mark$script_name$color_off"
+sleep 0.5
 echo -e "$color_error""Some ERROR!$color_off"
-sleep 1
+sleep 0.5
 
-#########################
-# Stop time measurement #
-#########################
+################
+# Script End #
+################
 
+# Stop time measurement
 echo
 echo -e "Finished $color_time$(date '+%Y-%m-%d %H:%M:%S')$color_off"
 script_end="$(date '+%s')"
@@ -186,8 +164,5 @@ script_duration="$(( $script_end - $script_start ))"
 echo -e "Duration $color_time$script_duration sec$color_off"
 echo
 
-###############
-# Exit script #
-###############
-
+# Exit script
 ScriptExit 0
