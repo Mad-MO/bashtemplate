@@ -2,8 +2,8 @@
 
 # Script info
 script_name="domoTemplate"
-script_version="v0.2.0"
-script_tools="echo date figlet tput clear test"
+script_version="v0.2.1"
+script_tools="echo date figlet clear test"
 
 
 # Handling of colored output
@@ -150,7 +150,7 @@ done
 
 # Show script startup info
 echo -ne "$color_header"
-figlet $script_name -w $(tput cols)
+figlet $script_name -w 100
 echo -e "$color_header$script_name $script_version$color_off"
 echo
 
@@ -171,9 +171,9 @@ sleep 0.5
 echo -e "$color_error""Some ERROR!$color_off"
 sleep 0.5
 
-################
+##############
 # Script End #
-################
+##############
 
 # Stop time measurement
 echo
