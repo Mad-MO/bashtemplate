@@ -3,7 +3,7 @@
 # Script info
 script_name="domoTemplate"
 script_version="v0.2.1"
-script_tools="echo date figlet clear test"
+script_tools="echo date clear test"
 
 
 # Handling of colored output
@@ -43,7 +43,7 @@ else
   color_header=$color_bold_red
   color_time=$color_bold_purple
   color_section=$color_bold_yellow
-  color_mark=$color_bold_white
+  color_mark=$color_bold_green
   color_error=$color_bold_red
 fi
 
@@ -150,7 +150,12 @@ done
 
 # Show script startup info
 echo -ne "$color_header"
-figlet $script_name -w 100
+echo "     _                     _____                    _       _       "
+echo "  __| | ___  _ __ ___   __|_   _|__ _ __ ___  _ __ | | __ _| |_ ___ "
+echo " / _\` |/ _ \| '_ \` _ \ / _ \| |/ _ \ '_ \` _ \| '_ \| |/ _\` | __/ _ \\"
+echo "| (_| | (_) | | | | | | (_) | |  __/ | | | | | |_) | | (_| | ||  __/"
+echo " \__,_|\___/|_| |_| |_|\___/|_|\___|_| |_| |_| .__/|_|\__,_|\__\___|"
+echo "                                             |_|                    "
 echo -e "$color_header$script_name $script_version$color_off"
 echo
 
