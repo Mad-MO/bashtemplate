@@ -1,10 +1,17 @@
 
 # domoTemplate
 
-Base template for creating bash scripts
+Base template for creating bash scripts.
+This script helps with:
 
-Running on Mac
-![Screenshot Mac](./ScreenshotMac.png)
+- Display of name and version
+- Checking for needed tools
+- Handling commandline parameters
+- Measering used time
+- Coloring of output
+- Exiting with error
+- Debugging output (if needed)
+- Starting in GUI window (if needed)
+- Waiting on exit (if needed)
 
-Running on Linux
-![Screenshot Linux](./ScreenshotLinux.png)
+![Screenshot Mac](./Screenshot.png)
