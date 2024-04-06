@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 
+# File:    domotemplate
+# Author:  Martin Ochs
+# License: MIT
+# Brief:   Basic template for creating bash scripts
+
+
+
 # Script info
-script_name="domoTemplate"
+script_name="domotemplate"
 script_version="v0.2.1"
 script_tools="echo date clear test"
 
