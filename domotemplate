@@ -5,13 +5,10 @@
 # License: MIT
 # Brief:   Basic template for creating bash scripts
 
-
-
 # Script info
 script_name="domotemplate"
 script_version="v0.2.1"
 script_tools="echo date clear test"
-
 
 # Handling of colored output
 NOCOLOR=0
@@ -171,21 +168,27 @@ echo -e "Starting $color_time$(date '+%Y-%m-%d %H:%M:%S')$color_off"
 script_start=$(date '+%s')
 echo
 
-################
-# Script Start #
-################
+##############################################
+# Script Start - Implement your script below #
+###############################################################################
 
-sleep 0.5
-echo -e "$color_section[Do some magic]$color_off"
-sleep 0.5
-echo -e "Scriptname: $color_mark$script_name$color_off"
-sleep 0.5
-echo -e "$color_error""Some ERROR!$color_off"
-sleep 0.5
 
-##############
-# Script End #
-##############
+
+echo -e "$color_section[Example section]$color_off"
+echo -e "Example output with highlighted $color_mark""INFO$color_off"
+echo -e "Example $color_error""ERROR$color_off"
+echo -n "Some timeout to demonstrate time measurement: "
+for i in {1..30}; do
+  sleep 0.1
+  echo -n "."
+done
+echo
+
+
+
+###############################################################################
+# Script End - Implement your script above #
+############################################
 
 # Stop time measurement
 echo
