@@ -10,7 +10,7 @@ script_name="domotemplate"
 script_version="v0.2.1"
 script_tools="echo date clear test"
 
-# Handling of colored output
+# Definition of colors
 NOCOLOR=0
 for paraval in "$@"; do
   if [ "$paraval" = "-n" ] || [ "$paraval" = "--nocolor" ]; then
@@ -70,7 +70,7 @@ function ScriptExit()
   fi
 }
 
-# Start X-terminal as GUI if requested
+# Start terminal as GUI if requested
 if [ "$SCRIPT_STARTED_IN_XGUI" != 1 ]; then
   for paraval in "$@"; do
     if [ "$paraval" = "-x" ] || [ "$paraval" = "--xgui" ]; then
