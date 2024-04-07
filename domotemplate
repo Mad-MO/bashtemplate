@@ -7,7 +7,7 @@
 
 # Script info
 script_name="domotemplate"
-script_version="v0.2.1"
+script_version="v0.3"
 script_tools="echo date clear test"
 
 # From here on warn about empty variables
