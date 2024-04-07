@@ -71,25 +71,21 @@ function ScriptExit()
 }
 
 # Start terminal as GUI if requested
-if [ "$SCRIPT_STARTED_IN_XGUI" != 1 ]; then
+if [ "$SCRIPT_STARTED_IN_GUI" != 1 ]; then
   for paraval in "$@"; do
-    if [ "$paraval" = "-x" ] || [ "$paraval" = "--xgui" ]; then
-      if [ ! -x xhost ]; then # Tool xhost installed?
-        if xhost >& /dev/null ; then # X-session running?
-          gnome-terminal --title $script_name" "$script_version -- /usr/bin/env "SCRIPT_STARTED_IN_XGUI=1" "$0" "$@"
-          exit
-        fi
-      fi
+    if [ "$paraval" = "-g" ] || [ "$paraval" = "--gui" ]; then
+      gnome-terminal --title $script_name" "$script_version -- /usr/bin/env "SCRIPT_STARTED_IN_GUI=1" "$0" "$@"
+      exit
     fi
   done
 fi
 
 # Handle Terminal Environment
 echo -en "$color_off""Running $color_mark$script_name$color_off version $color_mark$script_version$color_off"
-if [ "$SCRIPT_STARTED_IN_XGUI" = 1 ]; then
-  echo -en " in $color_mark""X$color_off"
+if [ "$SCRIPT_STARTED_IN_GUI" = 1 ]; then
+  echo -en " in $color_mark""GUI$color_off"
 else
-  SCRIPT_STARTED_IN_XGUI=0
+  SCRIPT_STARTED_IN_GUI=0
   set -u # From her on warn about empty variables
   echo -en " in $color_mark""Terminal$color_off"
 fi
@@ -119,10 +115,10 @@ while [ $# -gt 0 ]; do # Parameter given?
     echo
     echo "Options"
     echo "-d, --debug     Print all executed commands"
+    echo "-g, --gui      Start script in X gui window"
     echo "-h, --help      Print this help"
     echo "-n, --nocolor   Don't color output"
     echo "-w, --wait      Wait on exit"
-    echo "-x, --xgui      Start script in X gui window"
     echo
     echo "Exit status:"
     echo " 0  if OK"
@@ -134,7 +130,7 @@ while [ $# -gt 0 ]; do # Parameter given?
   elif [ "$1" = "-w" ] || [ "$1" = "--wait" ]; then
     WAIT_ON_EXIT=1
     shift
-  elif [ "$1" = "-x" ] || [ "$1" = "--xgui" ]; then
+  elif [ "$1" = "-g" ] || [ "$1" = "--gui" ]; then
     # Do nothing here, starting of gui is handled above
     shift
   else
