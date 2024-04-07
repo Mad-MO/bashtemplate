@@ -10,9 +10,6 @@ script_name="domotemplate"
 script_version="v0.3"
 script_tools="echo date clear test"
 
-# From here on warn about empty variables
-set -u
-
 # Definition of colors
 color_off="\033[0m"
 color_black="\033[0;30m"
@@ -39,6 +36,8 @@ color_section=$color_bold_yellow
 color_mark=$color_bold_green
 color_error=$color_bold_red
 
+
+
 # Function to end script with exit code and wait for ENTER key to close window (if wait on exit requested)
 function ScriptExit()
 {
@@ -57,6 +56,11 @@ function ScriptExit()
     exit
   fi
 }
+
+
+
+# From here on warn about unset variables
+set -u
 
 # Check Parameters
 WAIT_ON_EXIT=0
@@ -168,4 +172,3 @@ echo
 
 # Exit script
 ScriptExit 0
-
