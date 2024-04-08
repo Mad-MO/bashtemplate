@@ -37,7 +37,7 @@ color_mark=$color_bold_green
 color_error=$color_bold_red
 
 
-
+f
 # Function to end script with exit code and wait for ENTER key to close window (if wait on exit requested)
 function ScriptExit()
 {
