@@ -37,7 +37,7 @@ color_mark=$color_bold_green
 color_error=$color_bold_red
 
 
-f
+
 # Function to end script with exit code and wait for ENTER key to close window (if wait on exit requested)
 function ScriptExit()
 {
@@ -46,7 +46,7 @@ function ScriptExit()
       echo -e "Exitcode $color_mark$1$color_off"
     fi
     echo
-    echo -e "Press $color_mark""ENTER$color_off to close window"
+    echo -e "Press $color_mark""ENTER$color_off to exit"
     read
   fi
 
