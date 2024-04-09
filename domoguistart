@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# File:    domoguistart
+# Author:  Martin Ochs
+# License: MIT
+# Brief:   Start a new terminal window with given command in Linux
+
+# Running on Mac OS X?
+if [ "$(uname)" == "Linux" ]; then # Running on Linux?
+  gnome-terminal --title $1 -- /usr/bin/env $@
+  exit
+else
+  echo "This script is not supported on $(uname)"
+  exit 1
+fi
