@@ -62,6 +62,20 @@ function ScriptExit()
 # From here on warn about unset variables
 set -u
 
+# Show Terminal Environment and script startup info
+echo -en "Running as user \"$(id -un)\""
+if   [ $# -eq 1 ]; then
+  echo -e " with parameter \"$@\""
+elif [ $# -gt 1 ]; then
+  echo -en " with $# parameters"
+  for x in "$@"; do
+    echo -en " \"$x\""
+  done
+else
+  echo -e " with no parameters"
+fi
+echo
+
 # Check Parameters
 WAIT_ON_EXIT=0
 while [ $# -gt 0 ]; do # Parameter given?
@@ -119,21 +133,6 @@ for x in $script_tools; do # Run through tool list
     ScriptExit 1
   fi
 done
-
-# Show Terminal Environment and script startup info
-echo -en "$color_off""Running as user $color_mark$(id -un)$color_off"
-if   [ $# -eq 1 ]; then
-  echo -e " with parameter $color_mark\"$@\"$color_off"
-elif [ $# -gt 1 ]; then
-  echo -en " with $color_mark$#$color_off parameters$color_mark"
-  for x in "$@"; do
-    echo -en " \"$x\""
-  done
-  echo -e "$color_off"
-else
-  echo -e " with $color_mark""no$color_off parameters"
-fi
-echo
 
 # Start time measurement
 echo -e "Starting $color_time$(date '+%Y-%m-%d %H:%M:%S')$color_off"
