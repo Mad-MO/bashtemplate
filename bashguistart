@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# File:    domoguistart
+# File:    bashguistart
 # Author:  Martin Ochs
 # License: MIT
 # Brief:   Start a new terminal window with given command in Linux

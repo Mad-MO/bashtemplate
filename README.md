@@ -1,7 +1,7 @@
 
-# domoTemplate
+# bashtemplate
 
-Base template for creating bash scripts.
+Template for creating bash scripts.
 This script helps with:
 
 - Display of name and version
