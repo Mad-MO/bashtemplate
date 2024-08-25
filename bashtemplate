@@ -63,7 +63,7 @@ function ScriptExit()
 set -u
 
 # Show Terminal Environment and script startup info
-echo -en "Running as user \"$(id -un)\""
+echo -en "Running $script_name version $script_version as user \"$(id -un)\""
 if   [ $# -eq 1 ]; then
   echo -e " with parameter \"$@\""
 elif [ $# -gt 1 ]; then
