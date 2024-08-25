@@ -1,8 +1,10 @@
 
-# bashtemplate
+# bashtemplate - A Template for your shellscripts
 
-Template for creating bash scripts.
-This script helps with:
+## Brief
+
+This is a template for creating creating shellscripts.
+This script helps you with:
 
 - Display of name and version
 - Checking for needed tools
@@ -13,5 +15,7 @@ This script helps with:
 - Warning about empty variables
 - Debugging output (if needed)
 - Waiting on exit (if needed)
+
+## Screenshot
 
 ![Screenshot Mac](./Screenshot.png)
