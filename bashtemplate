@@ -8,7 +8,7 @@
 # Script info
 script_name="bashtemplate"
 script_version="v0.3"
-script_tools="echo date clear test"
+script_tools="echo date" # List all your needed tools here, so that they can be checked
 
 # Definition of colors
 color_off="\033[0m"
