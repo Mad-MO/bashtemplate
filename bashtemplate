@@ -37,6 +37,9 @@ color_mark=$color_bold_green
 color_error=$color_bold_red
 
 
+# Activate debug output (uncomment if needed)
+#set -x
+
 # From here on warn about unset variables
 set -u
 
@@ -57,16 +60,12 @@ echo
 # TODO: Implement your script parameters
 # Check Parameters
 while [ $# -gt 0 ]; do # Parameter given?
-  if   [ "$1" = "-d" ] || [ "$1" = "--debug" ]; then
-    set -x
-    shift
-  elif [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+  if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
     echo "Usage: $0 [OPTION]"
     echo
     echo "Do some fancy stuff..."
     echo
     echo "Options"
-    echo "-d, --debug     Print all executed commands"
     echo "-h, --help      Print this help"
     echo "-n, --nocolor   Don't color output"
     echo
