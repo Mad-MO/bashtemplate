@@ -1,1 +1,7 @@
-.DS_Store
+# General
+*.DS_Store
+*.Thumbs.db
+*.log
+*.temp
+*.tmp
+
