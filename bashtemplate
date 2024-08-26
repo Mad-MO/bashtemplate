@@ -68,6 +68,8 @@ fi
 echo
 
 # Check Parameters
+FLAG=""
+VAR=""
 while [ $# -gt 0 ]; do # Parameter given?
   # TODO: Implement your script parameters
   if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
@@ -82,7 +84,17 @@ while [ $# -gt 0 ]; do # Parameter given?
     echo " 0  if OK"
     echo " 1  if ERROR"
     exit 0
-  elif [ "$1" = "-w" ] || [ "$1" = "--wait" ]; then
+  elif [ "$1" = "-f" ] || [ "$1" = "--flag" ]; then
+    FLAG=1
+    shift
+  elif [ "$1" = "-v" ] || [ "$1" = "--var" ]; then
+    if [ $# -gt 1 ]; then
+      VAR="$2"
+    else
+      echo -e "Missing parameter for $color_mark$1$color_off"
+      exit 1
+    fi
+    shift
     shift
   else
     echo -e "Unknown parameter $color_mark$1$color_off"
@@ -125,6 +137,8 @@ echo
 # TODO: Implement your script here
 echo -e "$color_section[Example section]$color_off"
 echo -e "Example output with highlighted $color_mark""INFO$color_off"
+echo -e "Flag is $color_mark$FLAG$color_off"
+echo -e "VAR is $color_mark$VAR$color_off"
 echo -e "Example $color_error""ERROR$color_off"
 echo -n "Some timeout to demonstrate time measurement: "
 for i in {1..30}; do
