@@ -30,12 +30,20 @@ color_bold_cyan="\033[1;36m"
 color_bold_white="\033[1;37m"
 
 # Definition of used theme colors
-color_header=$color_bold_red
-color_time=$color_bold_purple
-color_section=$color_bold_yellow
-color_mark=$color_bold_green
-color_error=$color_bold_red
-
+if test -t 1; then
+  color_header=$color_bold_red
+  color_time=$color_bold_purple
+  color_section=$color_bold_yellow
+  color_mark=$color_bold_green
+  color_error=$color_bold_red
+else
+  color_off=
+  color_header=
+  color_time=
+  color_section=
+  color_mark=
+  color_error=
+fi
 
 # Activate debug output (uncomment if needed)
 #set -x
@@ -67,20 +75,11 @@ while [ $# -gt 0 ]; do # Parameter given?
     echo
     echo "Options"
     echo "-h, --help      Print this help"
-    echo "-n, --nocolor   Don't color output"
     echo
     echo "Exit status:"
     echo " 0  if OK"
     echo " 1  if ERROR"
     exit 0
-  elif [ "$1" = "-n" ] || [ "$1" = "--nocolor" ]; then
-    color_off=
-    color_header=
-    color_time=
-    color_section=
-    color_mark=
-    color_error=
-    shift
   elif [ "$1" = "-w" ] || [ "$1" = "--wait" ]; then
     shift
   else
