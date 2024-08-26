@@ -7,7 +7,7 @@
 
 # Script info
 script_name="bashtemplate" # TODO: Set your script name
-script_version="v0.4"      # TODO: Set your script version
+script_version="v0.5"      # TODO: Set your script version
 script_tools="echo date"   # TODO: List all your needed tools
 
 
