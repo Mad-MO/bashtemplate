@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
-# File:    bashtemplate
-# Author:  Martin Ochs
+# File:    # TODO: Filename
+# Author:  # TODO: Author
 # License: MIT
-# Brief:   Basic template for creating bash scripts
+# Brief:   # TODO: Description
 
 # Script info
-script_name="bashtemplate"
-script_version="v0.4"
-script_tools="echo date" # List all your needed tools here, so that they can be checked
+script_name="bashtemplate" # TODO: Set your script name
+script_version="v0.4"      # TODO: Set your script version
+script_tools="echo date"   # TODO: List all your needed tools
 
 # Definition of colors
 color_off="\033[0m"
@@ -76,6 +76,7 @@ else
 fi
 echo
 
+# TODO: Implement your script parameters
 # Check Parameters
 WAIT_ON_EXIT=0
 while [ $# -gt 0 ]; do # Parameter given?
@@ -114,6 +115,7 @@ while [ $# -gt 0 ]; do # Parameter given?
   fi
 done
 
+# TODO: Implement your script banner here (generate via figlet)
 # Show script startup info
 echo -ne "$color_header"
 echo " _____                    _       _       "
@@ -145,6 +147,7 @@ echo
 
 
 
+# TODO: Implement your script here
 echo -e "$color_section[Example section]$color_off"
 echo -e "Example output with highlighted $color_mark""INFO$color_off"
 echo -e "Example $color_error""ERROR$color_off"
