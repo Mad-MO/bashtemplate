@@ -37,28 +37,6 @@ color_mark=$color_bold_green
 color_error=$color_bold_red
 
 
-
-# Function to end script with exit code and wait for ENTER key to close window (if wait on exit requested)
-function ScriptExit()
-{
-  if [ "$WAIT_ON_EXIT" = "1" ]; then # Wait on exit requested?
-    if [ "$1" -ne "0" ]; then
-      echo -e "Exitcode $color_mark$1$color_off"
-    fi
-    echo
-    echo -e "Press $color_mark""ENTER$color_off to exit"
-    read
-  fi
-
-  if [ "$1" ]; then
-    exit $1
-  else
-    exit
-  fi
-}
-
-
-
 # From here on warn about unset variables
 set -u
 
@@ -78,7 +56,6 @@ echo
 
 # TODO: Implement your script parameters
 # Check Parameters
-WAIT_ON_EXIT=0
 while [ $# -gt 0 ]; do # Parameter given?
   if   [ "$1" = "-d" ] || [ "$1" = "--debug" ]; then
     set -x
@@ -92,12 +69,11 @@ while [ $# -gt 0 ]; do # Parameter given?
     echo "-d, --debug     Print all executed commands"
     echo "-h, --help      Print this help"
     echo "-n, --nocolor   Don't color output"
-    echo "-w, --wait      Wait on exit"
     echo
     echo "Exit status:"
     echo " 0  if OK"
     echo " 1  if ERROR"
-    ScriptExit 0
+    exit 0
   elif [ "$1" = "-n" ] || [ "$1" = "--nocolor" ]; then
     color_off=
     color_header=
@@ -107,11 +83,10 @@ while [ $# -gt 0 ]; do # Parameter given?
     color_error=
     shift
   elif [ "$1" = "-w" ] || [ "$1" = "--wait" ]; then
-    WAIT_ON_EXIT=1
     shift
   else
     echo -e "Unknown parameter $color_mark$1$color_off"
-    ScriptExit 1
+    exit 1
   fi
 done
 
@@ -132,7 +107,7 @@ for x in $script_tools; do # Run through tool list
   which $x > /dev/null
   if [ $? -ne 0 ]; then
     echo -e "Tool $color_mark$x$color_off is missing!"
-    ScriptExit 1
+    exit 1
   fi
 done
 
@@ -173,4 +148,4 @@ echo -e "Duration $color_time$script_duration sec$color_off"
 echo
 
 # Exit script
-ScriptExit 0
+exit 0
