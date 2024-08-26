@@ -10,6 +10,14 @@ script_name="bashtemplate" # TODO: Set your script name
 script_version="v0.4"      # TODO: Set your script version
 script_tools="echo date"   # TODO: List all your needed tools
 
+
+
+# Activate debug output (uncomment if needed)
+#set -x
+
+# From here on warn about unset variables
+set -u
+
 # Definition of colors
 color_off="\033[0m"
 color_black="\033[0;30m"
@@ -45,12 +53,6 @@ else
   color_error=
 fi
 
-# Activate debug output (uncomment if needed)
-#set -x
-
-# From here on warn about unset variables
-set -u
-
 # Show Terminal Environment and script startup info
 echo -en "$color_off""Running $color_mark$script_name$color_off version $color_mark$script_version$color_off as user $color_mark\"$(id -un)\"$color_off"
 if   [ $# -eq 1 ]; then
@@ -65,9 +67,9 @@ else
 fi
 echo
 
-# TODO: Implement your script parameters
 # Check Parameters
 while [ $# -gt 0 ]; do # Parameter given?
+  # TODO: Implement your script parameters
   if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
     echo "Usage: $0 [OPTION]"
     echo
@@ -88,9 +90,9 @@ while [ $# -gt 0 ]; do # Parameter given?
   fi
 done
 
-# TODO: Implement your script banner here (generate via figlet)
 # Show script startup info
 echo -ne "$color_header"
+# TODO: Implement your script banner here (generate via figlet)
 echo " _____                    _       _       "
 echo "|_   _|__ _ __ ___  _ __ | | __ _| |_ ___ "
 echo "  | |/ _ \ '_ \` _ \| '_ \| |/ _\` | __/ _ \\"
