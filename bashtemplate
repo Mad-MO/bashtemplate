@@ -44,16 +44,16 @@ color_error=$color_bold_red
 set -u
 
 # Show Terminal Environment and script startup info
-echo -en "Running $script_name version $script_version as user \"$(id -un)\""
+echo -en "$color_off""Running $color_mark$script_name$color_off version $color_mark$script_version$color_off as user $color_mark\"$(id -un)\"$color_off"
 if   [ $# -eq 1 ]; then
-  echo -e " with parameter \"$@\""
+  echo -e " with parameter $color_mark\"$@\"$color_off"
 elif [ $# -gt 1 ]; then
-  echo -en " with $# parameters"
+  echo -en " with $color_mark$#$color_off parameters"
   for x in "$@"; do
-    echo -en " \"$x\""
+    echo -en " $color_mark\"$x\"$color_off"
   done
 else
-  echo -e " with no parameters"
+  echo -e " with $color_mark""no""$color_off parameters"
 fi
 echo
 
