@@ -70,8 +70,13 @@ echo
 # Check Parameters
 FLAG=""
 VAR=""
-while [ $# -gt 0 ]; do # Parameter given?
-  # TODO: Implement your script parameters
+# TODO: Implement your script parameters
+for x in $*; do        # Method 1: Check all parameters in a loop without changing them
+  if [ "$x" = "-h" ] || [ "$x" = "--help" ]; then
+    echo
+  fi
+done
+while [ $# -gt 0 ]; do # Method 2: Check all parameters by shifting and remove them one by one
   if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
     echo "Usage: $0 [OPTION]"
     echo
