@@ -1,5 +1,7 @@
 
-# bashtemplate (Template for creating bash scripts)
+# bashtemplate
+
+Template for creating bash scripts
 
 ## Description
 
